@@ -1,18 +1,41 @@
 const express = require("express");
 const route = express.Router();
-const appController = require("../controllers/fileUpload");
+const multer = require('multer');
+const path = require("path");
 
-const multer = require('multer')
+const appController = require("../controllers/fileUpload");
 
 const UPLOADS_FOLDER = "./uploads"
 
+// define the storage
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, UPLOADS_FOLDER);
+    },
+    filename: (req, file, cb) => {
+        const fileExt = path.extname(file.originalname);
+        // console.log(fileExt);
+        const fileName = file.originalname
+            .replace(fileExt, "")
+            .toLowerCase()
+            .split(" ")
+            .join("-") + Date.now();
+        // console.log(fileName);
+
+        cb(null, fileName + fileExt);
+    }
+})
+
+
+// prepare the file
 const upload = multer({
-    dest: UPLOADS_FOLDER,
+    // dest: UPLOADS_FOLDER,
+    storage: storage,
     limits: {
         fileSize: 10000000 //1 MB
     },
     fileFilter: (req, file, cb) => {
-        console.log(file)
+        // console.log(file)
         if (file.fieldname === 'photo') {
             if (
                 file.mimetype === "image/png" ||
