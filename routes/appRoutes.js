@@ -3,19 +3,15 @@ const route = express.Router();
 const appController = require("../controllers/fileUpload");
 
 const multer = require('multer')
-const upload = multer({ dest: 'uploads/' })
 
-route.post("/upload", upload.single("File"), appController.handleFileUpload);
+const UPLOADS_FOLDER = "./uploads"
 
-route.post('/upload', upload.single('image'), async (req, res) => {
-    const file = req.file
-    console.log(file)
-
-    // apply filter
-    // resize 
-
-    const result = await appController.handleFileUpload
+const upload = multer({
+    dest: UPLOADS_FOLDER
 })
+
+
+route.post("/upload", upload.single("photo"), appController.handleFileUpload);
 
 
 module.exports = route;
