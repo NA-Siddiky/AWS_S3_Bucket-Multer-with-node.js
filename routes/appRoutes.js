@@ -5,12 +5,23 @@ const path = require("path");
 
 const appController = require("../controllers/fileUpload");
 
-const UPLOADS_FOLDER = "./uploads"
+// const UPLOADS_FOLDER = "./uploads"
+const UPLOADS_FOLDER_PDF = "./uploads/pdf"
+const UPLOADS_FOLDER_PHOTO = "./uploads/image"
 
 // define the storage
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, UPLOADS_FOLDER);
+        const fileType = path.extname(file.originalname)
+        console.log(fileType)
+        if (fileType == ".jpg" || fileType == ".jpeg" || fileType == ".png") {
+            cb(null, UPLOADS_FOLDER_PHOTO);
+        }
+        else if (fileType == ".pdf") {
+            cb(null, UPLOADS_FOLDER_PDF);
+        }
+
+
     },
     filename: (req, file, cb) => {
         const fileExt = path.extname(file.originalname);
@@ -35,7 +46,7 @@ const upload = multer({
         fileSize: 10000000 //1 MB
     },
     fileFilter: (req, file, cb) => {
-        // console.log(file)
+        console.log(file)
         if (file.fieldname === 'photo') {
             if (
                 file.mimetype === "image/png" ||
