@@ -7,7 +7,23 @@ const multer = require('multer')
 const UPLOADS_FOLDER = "./uploads"
 
 const upload = multer({
-    dest: UPLOADS_FOLDER
+    dest: UPLOADS_FOLDER,
+    limits: {
+        fileSize: 5000000 //1 MB
+    },
+    fileFilter: (req, file, cb) => {
+        console.log(file)
+        if (
+            file.mimetype === "image/png" ||
+            file.mimetype === "image/jpg" ||
+            file.mimetype === "image/jpeg"
+        ) {
+            cb(null, true);
+        } else {
+            cb(new Error(`file formate is not supported >> ${Error}`));
+        }
+    },
+
 })
 
 
