@@ -8,7 +8,7 @@ const appController = require("../controllers/fileUpload");
 // prepare the file
 const upload = multer({
     // dest: UPLOADS_FOLDER,
-    storage: appController.storage,
+    storage: appController.multerS3Config,
     fileFilter: function (res, file, cb) {
         appController.validDataFile(res, file, cb)
     },

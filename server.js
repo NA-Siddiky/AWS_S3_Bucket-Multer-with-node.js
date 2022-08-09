@@ -5,7 +5,7 @@ const multer = require("multer");
 const server = http.createServer(app);
 
 app.use((error, req, res, next) => {
-    const message = `error --> "${error}"`
+    const message = `Error --> "${error}"`
     console.log(message);
     return res.status(500).send(message);
     // if (error) {

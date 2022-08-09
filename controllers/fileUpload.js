@@ -92,16 +92,12 @@ const multerS3Config = multerS3({
     bucket: "herosapp",
     acl: "public-read",
     metadata: function (req, file, cb) {
-        console.log(file)
         cb(null, { fieldName: file.fieldname });
     },
     key: function (req, file, cb) {
-        console.log(file);
-        cb(null, "heroHQ/" + Date.now() + file.originalname)
-    }
-})
-
-
+        cb(null, "heroHQ/" + Date.now() + file.originalname);
+    },
+});
 
 
 
